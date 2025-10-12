@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+:root { --focus-ring: 0 0 0 3px #93c5fd, 0 0 0 6px #1e3a8a55; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+html, body, #root { height: 100%; }
