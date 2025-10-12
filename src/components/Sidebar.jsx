@@ -2,36 +2,20 @@ import React from 'react';
 import { colorFromPct } from '../lib/utils';
 
 export default function Sidebar({
-  blocks,
-  onOpen,
-  activeId,
-  getBlockPct,
-  search,
-  setSearch,
-  onClose,
-  isMobile = false,
+  blocks, onOpen, activeId, getBlockPct, search, setSearch
 }) {
   return (
-    <nav
-      aria-label="Bloques"
-      className={`bg-white rounded-xl shadow-soft p-3 ${isMobile ? 'sticky top-0' : 'sticky top-4 h-fit'}`}
-    >
+    <nav aria-label="Blocks" className="bg-white rounded-xl shadow-soft p-3">
       <div className="flex gap-2 mb-3">
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
           type="search"
-          placeholder="Buscar tema…"
-          aria-label="Buscar"
+          placeholder="Search…"
+          aria-label="Search"
           className="flex-1 border rounded-lg px-3 py-2"
         />
-        <button
-          onClick={() => setSearch('')}
-          className="px-3 py-2 rounded-lg border"
-          type="button"
-        >
-          ✖
-        </button>
+        <button onClick={() => setSearch('')} className="px-3 py-2 rounded-lg border" type="button">✖</button>
       </div>
 
       <div role="list" className="space-y-2">
@@ -41,15 +25,13 @@ export default function Sidebar({
           const match = !q || b.title.toLowerCase().includes(q) ||
             b.chapters.some(c => c.title.toLowerCase().includes(q));
           if (!match) return null;
-
           return (
             <button
               key={b.id}
               role="listitem"
-              aria-label={`${b.title}, ${pct}% completado`}
               onClick={() => onOpen(b.id, 0)}
-              className={`w-full text-left border rounded-xl p-2 flex gap-2 items-center active:scale-[0.99] transition ${
-                activeId === b.id ? 'outline outline-2 outline-blue-900 bg-blue-50' : ''
+              className={`w-full text-left border rounded-xl p-2 flex gap-2 items-center ${
+                activeId === b.id ? 'outline-2 outline-blue-900 bg-blue-50' : ''
               }`}
               type="button"
             >
@@ -66,19 +48,7 @@ export default function Sidebar({
         })}
       </div>
 
-      {isMobile && (
-        <div className="mt-3">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full border rounded-lg px-3 py-2"
-          >
-            Cerrar menú
-          </button>
-        </div>
-      )}
-
-      <p className="text-xs text-slate-600 mt-2">Consejo: usa Tab y Enter. 📚</p>
+      <p className="text-xs text-slate-600 mt-2">Tip: Tab + Enter. 📚</p>
     </nav>
   );
 }

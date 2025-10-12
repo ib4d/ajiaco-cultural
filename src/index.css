@@ -1,11 +1,13 @@
 @import "tailwindcss";
-@import "components";
-@import "base";
-@import "utilities";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Accessibility + mobile safety */
 :root { --focus-ring: 0 0 0 3px #93c5fd, 0 0 0 6px #1e3a8a55; }
 :focus-visible { outline: none; box-shadow: var(--focus-ring); }
 html, body, #root { height: 100%; }
-button { touch-action: manipulation; } /* removes 300ms delay on old mobile browsers */
 
+/* Make taps snappy and prevent ghost overlays on mobile */
+button { touch-action: manipulation; }
+* { -webkit-tap-highlight-color: transparent; }
