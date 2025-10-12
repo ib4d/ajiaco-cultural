@@ -21,18 +21,24 @@ export default function ChapterCard({
         <button
           onClick={() => setActiveIndex(i => Math.max(0, i - 1))}
           disabled={idx === 0}
-          className="border rounded-lg px-3 py-2 disabled:opacity-40"
+          className="border rounded-lg px-4 py-2 disabled:opacity-40 touch-manipulation"
+          type="button"
         >
           ⟵ Anterior
         </button>
         <button
           onClick={() => setActiveIndex(i => Math.min(total - 1, i + 1))}
           disabled={idx === total - 1}
-          className="border rounded-lg px-3 py-2 disabled:opacity-40"
+          className="border rounded-lg px-4 py-2 disabled:opacity-40 touch-manipulation"
+          type="button"
         >
           Siguiente ⟶
         </button>
-        <button onClick={() => setOpen(o => !o)} className="bg-red-600 text-white rounded-lg px-3 py-2">
+        <button
+          onClick={() => setOpen(o => !o)}
+          className="bg-red-600 text-white rounded-lg px-4 py-2 touch-manipulation"
+          type="button"
+        >
           {open ? 'Ocultar quiz' : 'Tomar quiz'}
         </button>
       </div>
