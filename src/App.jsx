@@ -14,15 +14,20 @@ export default function App() {
   const activeBlock = CONTENT.find(b => b.id === activeBlockId);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [search, setSearch] = React.useState('');
-  const [difficulty, setDifficulty] = React.useState('easy');
+  const [difficulty, setDifficulty] = React.useState('easy'); // 'easy' | 'hard' | 'mixed'
   const [showResults, setShowResults] = React.useState(false);
 
+  // Reset chapter index when block changes
   React.useEffect(() => { setActiveIndex(0); }, [activeBlockId]);
+
   const pct = getBlockPct(activeBlock);
   const fillStyle = { width: `${pct}%`, background: colorFromPct(pct, activeBlock.color) };
 
+  const chapter = activeBlock.chapters[activeIndex];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 text-slate-800">
+      {/* Header */}
       <header className="sticky top-0 z-20 bg-gradient-to-r from-blue-900 to-blue-800 text-white shadow-soft">
         <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -30,7 +35,7 @@ export default function App() {
             <h1 className="text-lg sm:text-xl font-extrabold tracking-tight">
               Ajiaco Cultural: ¡Aprende y Juega con Cuba!
             </h1>
-            <span className="ml-2 text-xs bg-white/15 px-2 py-0.5 rounded-full">Niños 7–12 · Accesible</span>
+            <span className="ml-2 text-xs bg-white/15 px-2 py-0.5 rounded-full">Niños 7–13 · Accesible</span>
           </div>
           <div className="flex items-center gap-2">
             <div aria-live="polite" className="text-sm">
@@ -46,8 +51,9 @@ export default function App() {
         </div>
       </header>
 
+      {/* Main */}
       <main className="max-w-6xl mx-auto px-4 py-4 grid gap-4 md:grid-cols-[300px_1fr]">
-        {/* Mobile inline picker (no overlays) */}
+        {/* Mobile inline picker (simple & click-safe) */}
         <MobileNav
           blocks={CONTENT}
           activeBlockId={activeBlockId}
@@ -95,6 +101,23 @@ export default function App() {
               <div className="w-full h-3 rounded-full bg-slate-200 overflow-hidden mt-3">
                 <div className="h-full transition-all" style={fillStyle} />
               </div>
+
+              {/* NEW: simple chapter selector (pills) */}
+              <div className="mt-3 flex gap-2 overflow-x-auto py-1">
+                {activeBlock.chapters.map((ch, i) => (
+                  <button
+                    key={ch.id}
+                    onClick={() => setActiveIndex(i)}
+                    className={`whitespace-nowrap rounded-full px-3 py-1 text-sm border ${
+                      i === activeIndex ? 'bg-blue-600 text-white border-blue-600' : 'bg-white'
+                    }`}
+                    type="button"
+                    aria-label={`Ir al capítulo ${i + 1}: ${ch.title}`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -104,22 +127,19 @@ export default function App() {
               <Badges content={CONTENT} progress={progress} />
             </>
           ) : (
-            <div className="space-y-3">
-              {activeBlock.chapters.map((ch, idx) => (
-                <ChapterCard
-                  key={ch.id}
-                  block={activeBlock}
-                  chapter={ch}
-                  isActive={idx === activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  idx={idx}
-                  total={activeBlock.chapters.length}
-                  color={activeBlock.color}
-                  onPass={mark}
-                  difficulty={difficulty}
-                />
-              ))}
-            </div>
+            // Render ONLY the active chapter (not the whole list)
+            <ChapterCard
+              key={chapter.id}
+              block={activeBlock}
+              chapter={chapter}
+              isActive
+              setActiveIndex={setActiveIndex}
+              idx={activeIndex}
+              total={activeBlock.chapters.length}
+              color={activeBlock.color}
+              onPass={mark}
+              difficulty={difficulty}
+            />
           )}
         </section>
       </main>

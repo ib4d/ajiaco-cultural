@@ -9,12 +9,12 @@ export default function ChapterCard({
   return (
     <article id={chapter.id} className="border rounded-xl p-4 bg-white/80">
       <div className="flex flex-wrap gap-2 text-xs text-slate-600">
-        <span className="px-2 py-0.5 rounded-full border bg-indigo-50 border-indigo-200">Capítulo</span>
+        <span className="px-2 py-0.5 rounded-full border bg-indigo-50 border-indigo-200">Capítulo {idx + 1} / {total}</span>
         <span className="px-2 py-0.5 rounded-full border bg-indigo-50 border-indigo-200">Resumen</span>
         <span className="px-2 py-0.5 rounded-full border bg-indigo-50 border-indigo-200">Quiz</span>
       </div>
 
-      <h3 className="font-bold mt-1">{idx + 1}. {chapter.title}</h3>
+      <h3 className="font-bold mt-1">{chapter.title}</h3>
       <p className="mt-1">{chapter.summary}</p>
 
       <div className="flex gap-2 mt-3 flex-wrap">
